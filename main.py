@@ -22,7 +22,7 @@ print("------------")
 print("Afforestation plans (million hectares):\n", res.x)
 # print("initial solution:\n", x0)
 print("------------")
-print("carbon sequestration in year Y under initial solution", np.dot(x0, constrain) + exist_forest_seq_t(y))
+print("carbon sequestration in year Y under initial solution", (np.dot(x0, constrain) + exist_forest_seq_t(y)) * 0.5) 
 print("discount rate", 1 / (1 + r))
 print("Pv = ", np.dot(coefficient, res.x))
 
@@ -38,6 +38,13 @@ for i in range(span):
 
 car_seq_series = np.dot(car_seq_mat, res.x) + np.array([exist_forest_seq_t(t) for t in range(1, y + span + 1)])
 print("------------")
-print("carbon sequestration per year (million tons):\n", car_seq_series)
+print("carbon sequestration per year (million tons):\n", car_seq_series * 0.5)  # 0.5 is the conversion factor
 print("------------")
 print("total planting area", sum(res.x))
+
+# np.savez('conservative_0', sol=res.x, seq=car_seq_series)
+# np.savez('conservative_1', sol=res.x, seq=car_seq_series)
+# np.savez('conservative_2', sol=res.x, seq=car_seq_series)
+# np.savez('optimistic_0', sol=res.x, seq=car_seq_series)
+# np.savez('optimistic_1', sol=res.x, seq=car_seq_series)
+# np.savez('optimistic_2', sol=res.x, seq=car_seq_series)
